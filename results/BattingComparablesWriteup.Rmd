@@ -1,0 +1,21 @@
+---
+title: "Envelopes of Future Performance for MLB Batters"
+author: "Tim Lortz"
+date: "June 23, 2016"
+output: html_document
+---
+I'm setting out to experiment with various methods of predicting future performance of baseball players, given their age, positon and history. I will also compare the relative performance of these methods. This little project is totally indebted to the Lahman Baseball Database, available at http://www.seanlahman.com/baseball-archive/statistics/. 
+
+# Creating a database of historical batting statistics and player characteristics
+## Reading in raw statistics
+
+## Creating a MonetSQLite database and connecting to it
+
+## Inserting raw statistics into the new database
+
+## Inserting player info into the db from master and fielding tables
+
+# Enriching batter information with player age and position
+## Manipulate fielding table to create a lookup of primary position for each player
+
+## 
