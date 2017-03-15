@@ -58,3 +58,4 @@ for (pid in unique(batting_enriched$playerID)){
   }
 }
 dbWriteTable(con,"t_CumBatting",cumBatting)
+dbDisconnect(con)
