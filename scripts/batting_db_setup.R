@@ -1,12 +1,8 @@
-library(dplyr)
-library(data.table)
-library(DBI)
-library(RSQLite)
-require(Lahman)
-sourceDir <- "C:/Users/Tim/Documents/OR Stuff/BaseballStats/LahmanData/baseballdatabank-2017.1/core"
-batting_raw <- fread(paste0(sourceDir,"/Batting.csv"),data.table = FALSE)
-fielding <- fread(paste0(sourceDir,"/Fielding.csv"),data.table = FALSE)
-master <- fread(paste0(sourceDir,"/Master.csv"),data.table = FALSE)
+#sourceDir <- "C:/Users/Tim/Documents/OR Stuff/BaseballStats/LahmanData/baseballdatabank-2017.1/core"
+dataDir <- "~/Data/Sports/Baseball/Lahman"
+batting_raw <- fread(paste0(dataDir,"/Source/Batting.csv"),data.table = FALSE)
+fielding <- fread(paste0(dataDir,"/Source/Fielding.csv"),data.table = FALSE)
+master <- fread(paste0(dataDir,"/Source/Master.csv"),data.table = FALSE)
 
 ## MonetDBLite approach...not working well ##
 '

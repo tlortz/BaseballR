@@ -1,0 +1,1 @@
+This project compares different methods of placing a player's performance in the context of current and former players. It uses this information to form projections of future performance as a function of past performance, age, years of experience, position, and other player features
