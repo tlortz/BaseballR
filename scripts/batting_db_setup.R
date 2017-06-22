@@ -1,8 +1,9 @@
 #sourceDir <- "C:/Users/Tim/Documents/OR Stuff/BaseballStats/LahmanData/baseballdatabank-2017.1/core"
 dataDir <- "~/Data/Sports/Baseball/Lahman"
-batting_raw <- fread(paste0(dataDir,"/Source/Batting.csv"),data.table = FALSE)
-fielding <- fread(paste0(dataDir,"/Source/Fielding.csv"),data.table = FALSE)
-master <- fread(paste0(dataDir,"/Source/Master.csv"),data.table = FALSE)
+batting_raw <- fread(paste0(dataDir,"/Source/baseballdatabank-2017.1/core/Batting.csv"),data.table = FALSE)
+fielding <- fread(paste0(dataDir,"/Source/baseballdatabank-2017.1/core/Fielding.csv"),data.table = FALSE)
+master <- fread(paste0(dataDir,"/Source/baseballdatabank-2017.1/core/Master.csv"),data.table = FALSE)
+fangraphs <- fread(paste0(dataDir,"/Prod/FranGraphsLeaderboard.csv"),data.table = FALSE)
 
 ## MonetDBLite approach...not working well ##
 '
@@ -21,7 +22,7 @@ dbDisconnect(con, shutdown=TRUE)
 ### put tables in db
 lahman_sqlite("./data")
 ### create new table of rookie year and birth year for each playerID
-con <- dbConnect(SQLite(),"./data/lahman.sqlite")
+con <- dbConnect(SQLite(),paste0(dataDir,"/Prod/lahman.sqlite"))
 ### create new table of primary position for each playerID and year
 primaryPos <- dbGetQuery(con,"SELECT * FROM fielding") %>%
   group_by(playerID,POS) %>%
@@ -35,6 +36,9 @@ master$debutYear <- sapply(master$debut, function(x){as.integer(substr(x,1,4))})
 batting_enriched <- left_join(batting_raw,select(master,playerID,birthYear,debutYear)) %>%
   left_join(select(primaryPos,playerID,primaryPos)) %>%
   mutate(age=yearID-birthYear,YOE=yearID-debutYear+1)
+# add in wOBA & PA for each player-year, then all the league effects for each year from 
+# http://www.fangraphs.com/library/offense/wrc/
+# and boil this down to wRC+ for each player-year prior to creating cum_batting table
 # make cumulative tables for each playerID + yearID (and hence age and YOE) combo
 cumBatting <- data.frame(playerID="",yearID=0,primaryPos="",age=0,YOE=0,AB=0,H=0,X2B=0,
                          X3B=0,HR=0,RBI=0,SB=0,CS=0,BB=0,SO=0,IBB=0,HBP=0)
